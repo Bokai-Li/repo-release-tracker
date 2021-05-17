@@ -13,7 +13,7 @@ class VM: ObservableObject {
     
     @Published var trackItemList = [String]()
     
-    @Published var trackItemDictionary: [String: (e: Element, new: Bool)] = [:]
+    @Published var trackItemDictionary: [String: (e: [Element], new: Bool)] = [:]
     
     public func addTrackItem(repo: String) {
         trackItemList.append(repo)
@@ -50,6 +50,14 @@ class VM: ObservableObject {
         return ""
     }
     
+    public func getAllVersionInfo(repo: String) -> [Element]{
+        return trackItemDictionary[repo]!.e
+    }
+    
+    public func getBody(repo: String, tag: String) {
+        
+    }
+    
     public func loadData(repo:String) {
         guard let url = URL(string:"https://api.github.com/repos/\(repo)/releases") else {
             print("invalid URL")
@@ -63,13 +71,11 @@ class VM: ObservableObject {
                 let res = try JSONDecoder().decode(Welcome.self, from: data)
                     DispatchQueue.main.async {
                         let key = self.getRepoKey(url: res[0].url)
-                        let element = res[0]
+                        let element = res
                         if(self.trackItemDictionary[key]==nil){
                             self.trackItemDictionary[key] = (element, true)
-                        } else if(self.trackItemDictionary[self.getRepoKey(url: res[0].url)]!.e.tagName != element.tagName){
+                        } else if(self.trackItemDictionary[self.getRepoKey(url: res[0].url)]!.e[0].tagName != element[0].tagName){
                             self.trackItemDictionary[self.getRepoKey(url: res[0].url)] = (element, true)
-//                        } else {
-//                            self.trackItemDictionary[self.getRepoKey(url: res[0].url)] = (element, false)
                         }
                     }
                     return

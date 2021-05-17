@@ -12,32 +12,39 @@ struct ContentView: View {
     
     @State private var text = ""
     
+    @State var Detailkey: String?
+    
     var body: some View {
         
         ZStack {
             Color.black
                 .edgesIgnoringSafeArea(.all)
-            VStack {
-                
-                TopSearchBar(vm: vm, text: $text)
-                
-                ScrollView{
-                    ForEach(Array(vm.trackItemDictionary.keys.enumerated()), id:\.element) { _, key in
-                            HStack{
-                                ItemView(vm: vm, key: key)
-                                    .padding()
+            if(Detailkey != nil){
+                DetailView(vm: vm, Detailkey: $Detailkey, versions: vm.getAllVersionInfo(repo: Detailkey!))
+                    .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.5)))
+            }else{
+                VStack {
+                    
+                    TopSearchBar(vm: vm, text: $text)
+                        .padding(.top, 30)
+                    
+                    ScrollView{
+                        ForEach(Array(vm.trackItemDictionary.keys.enumerated()), id:\.element) { _, key in
+                                HStack{
+                                    ItemView(vm: vm, Detailkey: $Detailkey, key: key)
+                                        .padding()
+                                }
                             }
-                        }
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
-            .foregroundColor(.white)
-        }
+        }.foregroundColor(.white)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}

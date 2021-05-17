@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ItemView: View {
     @ObservedObject var vm: VM
+    @Binding var Detailkey: String?
     var key: Dictionary<String, (e: Element, new: Bool)>.Keys.Element
     var body: some View {
         let screen = UIScreen.main.bounds
@@ -22,10 +23,13 @@ struct ItemView: View {
                     HStack{
                         Text("\(key)")
                             .padding(.leading, 20)
+                            .onTapGesture {
+                                Detailkey = key
+                            }
                         
                         Spacer()
                         
-                        Text("\(self.vm.trackItemDictionary[key]!.e.tagName)")
+                        Text("\(self.vm.trackItemDictionary[key]!.e[0].tagName)")
                             .foregroundColor(.green)
                         
                         Spacer()
@@ -52,10 +56,13 @@ struct ItemView: View {
                     HStack{
                         Text("\(key)")
                             .padding(.leading, 20)
+                            .onTapGesture {
+                                Detailkey = key
+                            }
                         
                         Spacer()
                         
-                        Text("\(self.vm.trackItemDictionary[key]!.e.tagName)")
+                        Text("\(self.vm.trackItemDictionary[key]!.e[0].tagName)")
                         
                         Spacer()
                         
