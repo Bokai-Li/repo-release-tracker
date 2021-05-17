@@ -13,24 +13,59 @@ struct ItemView: View {
     var body: some View {
         let screen = UIScreen.main.bounds
         ZStack{
-            if(self.vm.trackItemDictionary[key]!.new){
-                RoundedRectangle(cornerRadius:15)
-                    .foregroundColor(Color(UIColor.darkGray))
+            if(self.vm.trackItemDictionary[key] != nil){
+                if(self.vm.trackItemDictionary[key]!.new){
+                    RoundedRectangle(cornerRadius:15)
+                        .foregroundColor(Color(UIColor.darkGray))
+                        .frame(width: screen.width-50, height: 70)
+                        .shadow(color: .green, radius: 5, x: 1, y: 1)
+                    HStack{
+                        Text("\(key)")
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                        
+                        Text("\(self.vm.trackItemDictionary[key]!.e.tagName)")
+                            .foregroundColor(.green)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            vm.dismiss(repo: key)
+                        }, label: {
+                            Image(systemName: "checkmark")
+                        })
+                        Button(action: {
+                            vm.delete(repo: key)
+                        }, label: {
+                            Image(systemName: "xmark")
+                        })
+                        .padding(.trailing, 20)
+                    }
                     .frame(width: screen.width-50, height: 70)
-                    .shadow(color: .green, radius: 5, x: 1, y: 1)
-                HStack{
-                    Text("\(key)")
-                    Text("\(self.vm.trackItemDictionary[key]!.e.tagName)")
-                        .foregroundColor(.green)
-                }
-            } else {
-                RoundedRectangle(cornerRadius:15)
-                    .foregroundColor(Color(UIColor.darkGray))
+                } else {
+                    RoundedRectangle(cornerRadius:15)
+                        .foregroundColor(Color(UIColor.darkGray))
+                        .frame(width: screen.width-50, height: 70)
+                        .shadow(color: .white, radius: 5, x: 1, y: 1)
+                    Spacer()
+                    HStack{
+                        Text("\(key)")
+                            .padding(.leading, 20)
+                        
+                        Spacer()
+                        
+                        Text("\(self.vm.trackItemDictionary[key]!.e.tagName)")
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            vm.delete(repo: key)
+                        }, label: {
+                            Image(systemName: "xmark")
+                        }).padding(.trailing, 20)
+                    }
                     .frame(width: screen.width-50, height: 70)
-                    .shadow(color: .white, radius: 5, x: 1, y: 1)
-                HStack{
-                    Text("\(key)")
-                    Text("\(self.vm.trackItemDictionary[key]!.e.tagName)")
                 }
             }
         }
@@ -40,11 +75,36 @@ struct ItemView: View {
 
 struct ItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ZStack{
-            Color.black
-                .edgesIgnoringSafeArea(.all)
-            ItemView(vm: VM(), key: "idk")
+        let screen = UIScreen.main.bounds
+        ZStack
+        {
+            RoundedRectangle(cornerRadius:15)
+                .foregroundColor(Color(UIColor.darkGray))
+                .frame(width: screen.width-50, height: 70)
+                .shadow(color: .white, radius: 5, x: 1, y: 1)
+            Spacer()
+            HStack{
+                Text("microsoft/vscode")
+                    .padding(.leading, 20)
+                
+                Spacer()
+                
+                Text("1.1.1")
+                
+                Spacer()
+                
+                Button(action: {
+                }, label: {
+                    Image(systemName: "checkmark")
+                })
+                Button(action: {
+                }, label: {
+                    Image(systemName: "xmark")
+                })
+                .padding(.trailing, 20)
+            }
         }
+        .frame(width: screen.width-50, height: 70)
         .foregroundColor(.white)
     }
 }

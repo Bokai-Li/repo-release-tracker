@@ -25,6 +25,18 @@ class VM: ObservableObject {
         }
     }
     
+    public func dismiss(repo: String)
+    {
+        self.trackItemDictionary[repo]?.new = false
+    }
+    
+    public func delete(repo: String) {
+        if let index = trackItemList.firstIndex(of: repo) {
+            trackItemList.remove(at: index)
+        }
+        trackItemDictionary.removeValue(forKey: repo)
+    }
+    
     public func getRepoKey(url: String) -> String {
         let pattern = "repos/[a-zA-Z]+/[a-zA-Z]+/releases"
         let range = url.range(of: pattern, options:.regularExpression)
@@ -56,8 +68,8 @@ class VM: ObservableObject {
                             self.trackItemDictionary[key] = (element, true)
                         } else if(self.trackItemDictionary[self.getRepoKey(url: res[0].url)]!.e.tagName != element.tagName){
                             self.trackItemDictionary[self.getRepoKey(url: res[0].url)] = (element, true)
-                        } else {
-                            self.trackItemDictionary[self.getRepoKey(url: res[0].url)] = (element, false)
+//                        } else {
+//                            self.trackItemDictionary[self.getRepoKey(url: res[0].url)] = (element, false)
                         }
                     }
                     return
