@@ -127,6 +127,8 @@ struct HomeView: View {
                                 Text("No release info found with the given repo")
                             case .decode:
                                 Text("No info found with the given repo name")
+                            case .invalidURL:
+                                Text("Input is an invalid URL")
                             default:
                                 Text("Unknown Error")
                             }

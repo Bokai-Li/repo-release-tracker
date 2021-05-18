@@ -10,8 +10,8 @@ import SwiftUI
 struct DetailView: View {
     @ObservedObject var vm: VM
     @Binding var Detailkey: String?
-    
-    @State private var showingSheet = false
+    @State private var selectedE: Release?
+    @State private var fullScreen = false
     
     func widthForString(s: String) -> CGFloat {
         return s.widthOfString(usingFont: .systemFont(ofSize: 30, weight: .bold))
@@ -25,6 +25,7 @@ struct DetailView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack{
+                if(!fullScreen){
                 HStack {
                     Spacer()
                     
@@ -53,18 +54,45 @@ struct DetailView: View {
                         ForEach(versions, id:\.self.tagName){ e in
                             HStack{
                                 Text(e.name)
+                                    .onTapGesture {
+                                        selectedE=e
+                                    }
                                 Spacer()
                                 Text(e.tagName)
                             }
                             .frame(width: screen.width-50)
-                            .onTapGesture {
-                                showingSheet.toggle()
-                            }
-                            .sheet(isPresented: $showingSheet) {
-                                    BodySheetView(e: e)
-                            }
                         }
                     }
+                }
+                }
+                if(selectedE != nil){
+                    HStack {
+                        Button(action: {
+                            fullScreen.toggle()
+                        }, label: {
+                            if(fullScreen){
+                                Image(systemName: "arrow.down")
+                                    .font(.system(size:28))
+                            }else{
+                                Image(systemName: "arrow.up")
+                                    .font(.system(size:28))
+                            }
+                           
+                        })
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            selectedE = nil
+                            fullScreen = false
+                        }, label: {
+                            Image(systemName: "xmark")
+                                .font(.system(size:28))
+                        })
+                    }.padding(.horizontal, 22)
+                    BodySheetView(e: selectedE!)
+                        .transition(.move(edge: .bottom))
+                        .animation(.default)
                 }
             }
         }

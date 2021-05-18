@@ -14,7 +14,7 @@ struct BodySheetView: View {
     }
     var body: some View {
         ZStack{
-            Color.black.opacity(0.9)
+            Color(UIColor.darkGray)
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 VStack(spacing:0){

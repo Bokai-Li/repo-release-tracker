@@ -86,7 +86,10 @@ class VM: ObservableObject {
     
     public func loadData(repo:String) {
         guard let url = URL(string:"https://api.github.com/repos/\(repo)/releases") else {
-            print("invalid URL")
+            DispatchQueue.main.async {
+                self.err = .invalidURL
+                self.delete(repo: repo)
+            }
             return
         }
         let request = URLRequest(url: url)
@@ -129,6 +132,7 @@ enum Error {
     case empty
     case decode
     case noRelease
+    case invalidURL
 }
 
 enum sortBy: String, CaseIterable {
