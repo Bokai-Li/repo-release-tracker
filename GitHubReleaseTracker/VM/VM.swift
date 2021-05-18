@@ -98,6 +98,7 @@ class VM: ObservableObject {
                     DispatchQueue.main.async {
                         if(res.count<=0){
                             self.err = .noRelease
+                            self.delete(repo: repo)
                         }else{
                             let key = self.getRepoKey(url: res[0].url)
                             let element = res
@@ -133,4 +134,12 @@ enum Error {
 enum sortBy: String, CaseIterable {
     case nameAsc = "Name Ascending"
     case nameDes = "Name Descending"
+}
+
+extension String {
+    func widthOfString(usingFont font: UIFont) -> CGFloat {
+        let fontAttributes = [NSAttributedString.Key.font: font]
+        let size = self.size(withAttributes: fontAttributes)
+        return size.width
+    }
 }

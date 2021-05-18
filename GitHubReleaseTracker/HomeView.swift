@@ -115,6 +115,7 @@ struct HomeView: View {
                 Group {
                     Color.black.opacity(0.7)
                     VStack{
+                        Spacer()
                         switch vm.err {
                         case .empty:
                             Text("Input cannot be empty")
@@ -125,11 +126,15 @@ struct HomeView: View {
                         default:
                             Text("Unknown Error")
                         }
+                        Spacer()
                         Button(action:{
                             vm.dismissError()
                         }){
-                            Text("Dismiss")
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.system(size:40))
+                            
                         }
+                        .padding(.bottom, 30)
                     }
                 }
                 .edgesIgnoringSafeArea(.all)

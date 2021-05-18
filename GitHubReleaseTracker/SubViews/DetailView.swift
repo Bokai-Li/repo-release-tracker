@@ -13,6 +13,10 @@ struct DetailView: View {
     
     @State private var showingSheet = false
     
+    func widthForString(s: String) -> CGFloat {
+        return s.widthOfString(usingFont: .systemFont(ofSize: 30, weight: .bold))
+    }
+    
     var versions: [Release]
     var body: some View {
         let screen = UIScreen.main.bounds
@@ -33,9 +37,15 @@ struct DetailView: View {
                 }.padding(.horizontal, 22)
                 HStack{
                     Spacer()
-                    Text(vm.getRepoKey(url: versions[0].url))
-                        .bold()
-                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    VStack(spacing:0){
+                        Text(vm.getRepoKey(url: versions[0].url))
+                            .bold()
+                            .font(.system(size: 30))
+                        Rectangle()
+                            .frame(width: widthForString(s: vm.getRepoKey(url: versions[0].url)), height: 6)
+                            .foregroundColor(.red)
+                            .padding(.bottom, 20)
+                    }
                     Spacer()
                 }
                 ScrollView(showsIndicators: false){

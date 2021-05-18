@@ -9,17 +9,27 @@ import SwiftUI
 
 struct BodySheetView: View {
     var e: Release
+    func widthForString(s: String) -> CGFloat {
+        return s.widthOfString(usingFont: .systemFont(ofSize: 30, weight: .bold))
+    }
     var body: some View {
         ZStack{
-            Color.black.opacity(0.8)
+            Color.black.opacity(0.9)
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                Text(e.name)
-                    .font(.title)
-                    .frame(height:100)
-                    .padding()
-                Text(e.publishedAt)
-                Text(e.tagName)
+                VStack(spacing:0){
+                    Text(e.name)
+                        .font(.title)
+                        .frame(height:80)
+                        .padding()
+                }
+                HStack{
+                    Spacer()
+                    Text(e.tagName)
+                    Spacer()
+                    Text(e.publishedAt)
+                    Spacer()
+                }
                 RoundedRectangle(cornerRadius:10)
                     .fill(Color(.systemGray5))
                     .frame(width:350, height:1)
@@ -27,6 +37,7 @@ struct BodySheetView: View {
                     .padding()
                 ScrollView{
                     Text(e.body)
+                        .padding()
                 }
             }
         }
