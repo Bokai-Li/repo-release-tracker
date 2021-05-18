@@ -15,8 +15,8 @@ struct HomeView: View {
     @State var Detailkey: String?
     
     var body: some View {
-        return
-            ZStack {
+        
+        ZStack {
             Color.black
                 .edgesIgnoringSafeArea(.all)
             if(Detailkey != nil){
@@ -36,7 +36,7 @@ struct HomeView: View {
                         .padding(.top, 30)
                     
                     ScrollView{
-                        ForEach(array, id:\.element) { _, key in
+                        ForEach(Array(vm.trackItemDictionary.keys.enumerated()), id:\.element) { _, key in
                                 HStack{
                                     ItemView(vm: vm, Detailkey: $Detailkey, key: key)
                                         .padding()

@@ -79,6 +79,14 @@ class VM: ObservableObject {
         return ""
     }
     
+    public func getAllVersionInfo(repo: String) -> [Release]{
+        return trackItemDictionary[repo]!.e
+    }
+    
+    public func getBody(repo: String, tag: String) {
+        
+    }
+    
     public func loadData(repo:String) {
         guard let url = URL(string:"https://api.github.com/repos/\(repo)/releases") else {
             print("invalid URL")
