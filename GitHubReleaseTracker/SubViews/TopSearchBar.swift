@@ -18,6 +18,7 @@ struct TopSearchBar: View {
                 Image("refreshIcon")
                     .resizable()
                     .frame(width:20, height:20)
+                    .colorMultiply(Color(UIColor.darkGray))
             }).padding(.trailing,10)
             ZStack{
                 Color.gray
@@ -39,6 +40,8 @@ struct TopSearchBar: View {
                 Image(systemName: "plus")
                     .font(.system(size:25))
             })
-        }
+            
+        }.foregroundColor(Color(UIColor.darkGray))
+        
     }
 }

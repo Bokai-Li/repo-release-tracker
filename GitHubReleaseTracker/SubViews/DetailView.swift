@@ -13,7 +13,7 @@ struct DetailView: View {
     
     @State private var showingSheet = false
     
-    var versions: [Element]
+    var versions: [Release]
     var body: some View {
         let screen = UIScreen.main.bounds
         ZStack{

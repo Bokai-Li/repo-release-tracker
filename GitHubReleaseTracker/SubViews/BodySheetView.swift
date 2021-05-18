@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct BodySheetView: View {
-    var e: Element
+    var e: Release
     var body: some View {
         ZStack{
-            Color.black
+            Color.black.opacity(0.8)
                 .edgesIgnoringSafeArea(.all)
             VStack{
                 Text(e.name)

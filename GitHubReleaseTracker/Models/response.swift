@@ -7,8 +7,7 @@
 
 import Foundation
 
-// MARK: - WelcomeElement
-struct Element: Codable {
+struct Release: Codable {
     let url, assetsURL: String
     let uploadURL: String
     let htmlURL: String
@@ -88,7 +87,7 @@ enum TargetCommitish: String, Codable {
     case release149 = "release/1.49"
 }
 
-typealias Welcome = [Element]
+typealias Welcome = [Release]
 
 // MARK: - Encode/decode helpers
 

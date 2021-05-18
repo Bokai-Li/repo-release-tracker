@@ -10,7 +10,7 @@ import SwiftUI
 struct ItemView: View {
     @ObservedObject var vm: VM
     @Binding var Detailkey: String?
-    var key: Dictionary<String, (e: Element, new: Bool)>.Keys.Element
+    var key: Dictionary<String, (e: Release, new: Bool)>.Keys.Element
     var body: some View {
         let screen = UIScreen.main.bounds
         ZStack{
@@ -24,13 +24,15 @@ struct ItemView: View {
                         Text("\(key)")
                             .padding(.leading, 20)
                             .onTapGesture {
+                                vm.dismiss(repo: key)
                                 Detailkey = key
                             }
                         
                         Spacer()
-                        
-                        Text("\(self.vm.trackItemDictionary[key]!.e[0].tagName)")
-                            .foregroundColor(.green)
+                        VStack{
+                            Text("\(self.vm.trackItemDictionary[key]!.e[0].tagName)")
+                            Text(String(self.vm.trackItemDictionary[key]!.e[0].publishedAt.prefix(10)))
+                        }.foregroundColor(.green)
                         
                         Spacer()
                         
@@ -57,12 +59,15 @@ struct ItemView: View {
                         Text("\(key)")
                             .padding(.leading, 20)
                             .onTapGesture {
+                                vm.dismiss(repo: key)
                                 Detailkey = key
                             }
                         
                         Spacer()
-                        
-                        Text("\(self.vm.trackItemDictionary[key]!.e[0].tagName)")
+                        VStack{
+                            Text(String(self.vm.trackItemDictionary[key]!.e[0].publishedAt.prefix(10)))
+                            Text("\(self.vm.trackItemDictionary[key]!.e[0].tagName)")
+                        }
                         
                         Spacer()
                         
