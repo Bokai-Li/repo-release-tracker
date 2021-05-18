@@ -29,6 +29,7 @@ struct TopSearchBar: View {
                         .foregroundColor(Color.black)
                         .padding(.leading, 10)
                     TextField("Search", text: $text)
+                        .autocapitalization(.none)
                 }
                 .frame(width: 300, height:36)
             }

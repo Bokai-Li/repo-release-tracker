@@ -5,39 +5,69 @@
 //  Created by Bokai Li on 5/14/21.
 //
 
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
+
 import Foundation
 
+// MARK: - WelcomeElement
 struct Release: Codable {
-    let url, assetsURL: String
-    let uploadURL: String
+    let url: String
     let htmlURL: String
+    let assetsURL: String
+    let uploadURL: String
+    let tarballURL, zipballURL: String
     let id: Int
-    let author: Author
-    let nodeID, tagName: String
-    let targetCommitish: TargetCommitish
-    let name: String
+    let nodeID, tagName, targetCommitish, name: String
+    let body: String
     let draft, prerelease: Bool
     let createdAt, publishedAt: String
+    let author: Author
     let assets: [JSONAny]
-    let tarballURL, zipballURL: String
-    let body: String
 
     enum CodingKeys: String, CodingKey {
         case url
+        case htmlURL = "html_url"
         case assetsURL = "assets_url"
         case uploadURL = "upload_url"
-        case htmlURL = "html_url"
-        case id, author
+        case tarballURL = "tarball_url"
+        case zipballURL = "zipball_url"
+        case id
         case nodeID = "node_id"
         case tagName = "tag_name"
         case targetCommitish = "target_commitish"
-        case name, draft, prerelease
+        case name, body, draft, prerelease
         case createdAt = "created_at"
         case publishedAt = "published_at"
-        case assets
-        case tarballURL = "tarball_url"
-        case zipballURL = "zipball_url"
-        case body
+        case author, assets
+    }
+}
+
+// MARK: - Asset
+struct Asset: Codable {
+    let url: String
+    let browserDownloadURL: String
+    let id: Int
+    let nodeID, name, label, state: String
+    let contentType: String
+    let size, downloadCount: Int
+    let createdAt, updatedAt: Date
+    let uploader: Author
+
+    enum CodingKeys: String, CodingKey {
+        case url
+        case browserDownloadURL = "browser_download_url"
+        case id
+        case nodeID = "node_id"
+        case name, label, state
+        case contentType = "content_type"
+        case size
+        case downloadCount = "download_count"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+        case uploader
     }
 }
 
@@ -53,7 +83,7 @@ struct Author: Codable {
     let subscriptionsURL, organizationsURL, reposURL: String
     let eventsURL: String
     let receivedEventsURL: String
-    let type: TypeEnum
+    let type: String
     let siteAdmin: Bool
 
     enum CodingKeys: String, CodingKey {
@@ -76,21 +106,7 @@ struct Author: Codable {
         case siteAdmin = "site_admin"
     }
 }
-
-enum TypeEnum: String, Codable {
-    case user = "User"
-}
-
-enum TargetCommitish: String, Codable {
-    case main = "main"
-    case master = "master"
-    case release149 = "release/1.49"
-}
-
-typealias Welcome = [Release]
-
 // MARK: - Encode/decode helpers
-
 class JSONNull: Codable, Hashable {
 
     public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
@@ -330,3 +346,4 @@ class JSONAny: Codable {
         }
     }
 }
+typealias Welcome = [Release]

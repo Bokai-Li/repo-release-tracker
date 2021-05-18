@@ -14,9 +14,21 @@ struct HomeView: View {
     
     @State var Detailkey: String?
     
+    @State var showSortOptions = false
+    
+    @State var selectedSortOption = sortBy.nameAsc
+    
     var body: some View {
+        var array = Array(vm.trackItemDictionary.keys)
+        array = array.filter{$0.contains(text.lowercased()) || text == ""}
+        switch selectedSortOption {
+        case .nameAsc:
+            array.sort()
+        case .nameDes:
+            array.sort(by: >)
+        }
         
-        ZStack {
+        return ZStack {
             Color.black
                 .edgesIgnoringSafeArea(.all)
             if(Detailkey != nil){
@@ -35,8 +47,25 @@ struct HomeView: View {
                     TopSearchBar(vm: vm, text: $text)
                         .padding(.top, 30)
                     
+                    Button(action: {
+                        showSortOptions = true
+                    }, label: {
+                        HStack {
+                            Text("Sort by")
+                                .font(.system(size: 18))
+                            Image(systemName: "triangle.fill")
+                                .font(.system(size: 10))
+                                .rotationEffect(.degrees(180), anchor: .center)
+                            
+                            Spacer()
+                            
+                        }
+                        .padding()
+                    })
+                    .buttonStyle(PlainButtonStyle())
+                    
                     ScrollView{
-                        ForEach(Array(vm.trackItemDictionary.keys.enumerated()), id:\.element) { _, key in
+                        ForEach(array, id:\.self) { key in
                                 HStack{
                                     ItemView(vm: vm, Detailkey: $Detailkey, key: key)
                                         .padding()
@@ -45,6 +74,42 @@ struct HomeView: View {
                     }
                     Spacer()
                 }
+            }
+            if(showSortOptions){
+                Group {
+                    Color.black.opacity(0.9)
+                    
+                    VStack(spacing:40){
+                        Spacer()
+                        ForEach(sortBy.allCases, id: \.self) {
+                            sortOption in
+                            
+                            Button(action: {
+                                selectedSortOption = sortOption
+                                showSortOptions = false
+                            }, label: {
+                                if sortOption == selectedSortOption {
+                                    Text("\(sortOption.rawValue)")
+                                        .bold()
+                                } else {
+                                    Text("\(sortOption.rawValue)")
+                                        .foregroundColor(.gray)
+                                }
+                            })
+                        }
+                        Spacer()
+                        Button(action:{
+                            showSortOptions = false
+                        }){
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.system(size:40))
+                            
+                        }
+                        .padding(.bottom, 30)
+                    }
+                }
+                .edgesIgnoringSafeArea(.all)
+                .font(.title2)
             }
             if(vm.err != .noError){
                 Group {

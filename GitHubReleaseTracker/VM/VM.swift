@@ -55,7 +55,7 @@ class VM: ObservableObject {
     }
     
     public func getRepoKeyGithub(url: String) -> String {
-        let pattern = "github.com/[a-zA-Z]+/[a-zA-Z]+"
+        let pattern = "github.com/[a-zA-Z0-9]+/[a-zA-Z0-9]+"
         let range = url.range(of: pattern, options:.regularExpression)
 
         if let range = range {
@@ -67,7 +67,7 @@ class VM: ObservableObject {
     }
     
     public func getRepoKey(url: String) -> String {
-        let pattern = "repos/[a-zA-Z]+/[a-zA-Z]+/releases"
+        let pattern = "repos/[a-zA-Z0-9]+/[a-zA-Z0-9]+/releases"
         let range = url.range(of: pattern, options:.regularExpression)
 
         if let range = range {
@@ -82,10 +82,7 @@ class VM: ObservableObject {
     public func getAllVersionInfo(repo: String) -> [Release]{
         return trackItemDictionary[repo]!.e
     }
-    
-    public func getBody(repo: String, tag: String) {
-        
-    }
+
     
     public func loadData(repo:String) {
         guard let url = URL(string:"https://api.github.com/repos/\(repo)/releases") else {
@@ -131,4 +128,9 @@ enum Error {
     case empty
     case decode
     case noRelease
+}
+
+enum sortBy: String, CaseIterable {
+    case nameAsc = "Name Ascending"
+    case nameDes = "Name Descending"
 }
