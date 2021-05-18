@@ -10,9 +10,12 @@ import SwiftUI
 struct TopSearchBar: View {
     @ObservedObject var vm: VM
     @Binding var text: String
+    @State var isEditing = true
     var body: some View {
         HStack {
             Button(action: {
+                isEditing = false
+                hideKeyboard()
                 vm.refresh()
             }, label: {
                 Image("refreshIcon")
@@ -22,7 +25,7 @@ struct TopSearchBar: View {
             }).padding(.trailing,10)
             ZStack{
                 Color.gray
-                    .frame(width: 300, height:36)
+                    .frame(height:36)
                     .cornerRadius(8)
                 HStack {
                     Image(systemName: "magnifyingglass")
@@ -30,10 +33,16 @@ struct TopSearchBar: View {
                         .padding(.leading, 10)
                     TextField("Search", text: $text)
                         .autocapitalization(.none)
+                        .onTapGesture {
+                            isEditing = true
+                        }
                 }
-                .frame(width: 300, height:36)
+                .frame(height:36)
+                .animation(.default)
             }
             Button(action: {
+                isEditing = false
+                hideKeyboard()
                 vm.addTrackItem(repo: text)
                 text = ""
                 vm.refresh()

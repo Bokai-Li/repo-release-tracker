@@ -116,15 +116,20 @@ struct HomeView: View {
                     Color.black.opacity(0.7)
                     VStack{
                         Spacer()
-                        switch vm.err {
-                        case .empty:
-                            Text("Input cannot be empty")
-                        case .noRelease:
-                            Text("No release info found with the given repo")
-                        case .decode:
-                            Text("No info found with the given repo name")
-                        default:
-                            Text("Unknown Error")
+                        VStack{
+                            Text("Error:")
+                                .font(.title)
+                                .padding()
+                            switch vm.err {
+                            case .empty:
+                                Text("Input cannot be empty")
+                            case .noRelease:
+                                Text("No release info found with the given repo")
+                            case .decode:
+                                Text("No info found with the given repo name")
+                            default:
+                                Text("Unknown Error")
+                            }
                         }
                         Spacer()
                         Button(action:{
